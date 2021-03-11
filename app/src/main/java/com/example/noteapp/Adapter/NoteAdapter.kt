@@ -14,9 +14,8 @@ import java.util.*
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    private var binding: NoteLayoutAdapterBinding? = null
 
-    class NoteViewHolder(itemBinding: NoteLayoutAdapterBinding) :
+    class NoteViewHolder(val itemBinding: NoteLayoutAdapterBinding) :
         RecyclerView.ViewHolder(itemBinding.root)
 
     val differCallback = object : DiffUtil.ItemCallback<Note>() {
@@ -32,31 +31,31 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        binding = NoteLayoutAdapterBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+        return NoteViewHolder(
+            NoteLayoutAdapterBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
-        return NoteViewHolder(binding!!)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentNote = differ.currentList[position]
 
-        holder.itemView.apply {
-            binding?.tvNoteTitle?.text = currentNote.noteTitle
-            binding?.tvNoteBody?.text = currentNote.noteBody
+        holder.itemBinding.tvNoteTitle.text = currentNote.noteTitle
+        holder.itemBinding.tvNoteBody.text = currentNote.noteBody
 
-            val ramdom = Random()
+        val ramdom = Random()
 
-            val color = Color.argb(255,
+        val color = Color.argb(
+            255,
             ramdom.nextInt(266),
             ramdom.nextInt(266),
-            ramdom.nextInt(266))
+            ramdom.nextInt(266)
+        )
 
-            binding?.viewColor?.setBackgroundColor(color)
+        holder.itemBinding.viewColor.setBackgroundColor(color)
 
-        }.setOnClickListener { mView ->
+        holder.itemView.setOnClickListener { mView ->
 
             val direction = HomeFragmentDirections
                 .actionHomeFragmentToUpdateNoteFragment(currentNote)

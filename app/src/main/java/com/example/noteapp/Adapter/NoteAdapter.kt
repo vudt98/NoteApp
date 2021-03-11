@@ -2,9 +2,11 @@ package com.example.noteapp.Adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.noteapp.Fragments.HomeFragmentDirections
 import com.example.noteapp.Model.Note
 import com.example.noteapp.databinding.NoteLayoutAdapterBinding
 
@@ -17,7 +19,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     val differCallback = object : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.id == newItem.id
+            return newItem.id == oldItem.id
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -42,6 +44,12 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         holder.itemView.apply {
             binding?.tvNoteTitle?.text = currentNote.noteTitle
             binding?.tvNoteBody?.text = currentNote.noteBody
+        }.setOnClickListener { mView ->
+
+            val direction = HomeFragmentDirections
+                .actionHomeFragmentToUpdateNoteFragment(currentNote)
+
+            mView.findNavController().navigate(direction)
         }
     }
 

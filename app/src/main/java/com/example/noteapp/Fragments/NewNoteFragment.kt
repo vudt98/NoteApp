@@ -67,6 +67,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
         inflater.inflate(R.menu.new_note_menu, menu)
     }
 

@@ -27,5 +27,7 @@ class NoteViewModel(
 
     fun getAllNote() = noteReposistory.getAllNotes()
 
+    fun searchNote(query: String?) = noteReposistory.searchNote(query)
+
 
 }
